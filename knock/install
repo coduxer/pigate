@@ -14,6 +14,6 @@ sudo apt-get -y install knockd openssh-server iptables iptables-persistent
 #set configurations
 sudo keyport1=$1 keyport1=$2 keyport1=$3 portguard=$4 envsubst < ./knockd.conf > /etc/knockd.conf
 
-sudo systemctl start knockd
+sudo systemctl restart knockd
 # iptables-persistent
 # sudo systemctl start iptables
