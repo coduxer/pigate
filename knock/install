@@ -1,13 +1,18 @@
 #!/bin/bash
 # This install script is for deb distros
 
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root"
+	exit
+fi
+
 # installing all packages
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 sudo apt-get -y install knockd openssh-server iptables iptables-persistent
 
 #set configurations
-keyport1=$1 keyport1=$2 keyport1=$3 portguard=$4 sudo envsubst < ./knockd.conf > /etc/knockd.conf
+sudo keyport1=$1 keyport1=$2 keyport1=$3 portguard=$4 envsubst < ./knockd.conf > /etc/knockd.conf
 
 sudo systemctl start knockd
 # iptables-persistent
