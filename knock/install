@@ -9,7 +9,14 @@ fi
 # installing all packages
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+
 sudo apt-get -y install knockd openssh-server iptables iptables-persistent
+
+# use old iptables
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+update-alternatives --set arptables /usr/sbin/arptables-legacy
+update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 
 #set configurations
 sudo keyport1=$1 keyport2=$2 keyport3=$3 portguard=$4 envsubst < ./knockd.conf > /etc/knockd.conf
