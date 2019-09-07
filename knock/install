@@ -15,8 +15,8 @@ sudo apt-get -y install knockd openssh-server iptables iptables-persistent
 # use old iptables
 update-alternatives --set iptables /usr/sbin/iptables-legacy
 update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-update-alternatives --set arptables /usr/sbin/arptables-legacy
-update-alternatives --set ebtables /usr/sbin/ebtables-legacy
+# update-alternatives --set arptables /usr/sbin/arptables-legacy
+# update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 
 #set configurations
 sudo keyport1=$1 keyport2=$2 keyport3=$3 portguard=$4 envsubst < ./knockd.conf > /etc/knockd.conf
@@ -24,3 +24,13 @@ sudo keyport1=$1 keyport2=$2 keyport3=$3 portguard=$4 envsubst < ./knockd.conf >
 sudo systemctl restart knockd
 # iptables-persistent
 # sudo systemctl start iptables
+
+
+# iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+# Accept on localhost
+# iptables -A INPUT -i lo -j ACCEPT
+# iptables -A OUTPUT -o lo -j ACCEPT
+# iptables -P INPUT DROP
+# iptables -P FORWARD DROP
+# iptables -P OUTPUT ACCEPT
+# sudo iptables -A INPUT -m iprange --src-range 192.168.0.100-192.168.0.199 -p tcp --dport 22 -j ACCEPT
