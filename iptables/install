@@ -1,0 +1,26 @@
+#!/bin/bash
+# Clear iptables all
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
+
+# Creating ip table
+# Accept established conneciton
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+# Accept on localmachin
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+# Accept on local network lan
+sudo iptables -A INPUT -m iprange --src-range 192.168.0.100-192.168.0.199 -p tcp --dport 22 -j ACCEPT
+
+# set default policy to drop all
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Save iptable config for permament:
+iptables-save > /etc/iptables/rules.v4
