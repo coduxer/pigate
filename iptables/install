@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root"
+	exit
+fi
+
 # Clear iptables all
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
