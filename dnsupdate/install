@@ -6,6 +6,6 @@ source CONFIG
 
 sudo domain=$domain token=$token  envsubst < ./duckdns.skt > /etc/cron.d/duckdns.sh
 chmod 700 /etc/cron.d/duckdns.sh
-sudo echo "*/5 * * * * root ~/duckdns/duck.sh >/dev/null 2>&1" > /etc/cron.d/duckdns
+sudo echo "*/5 * * * * root /etc/cron.d/duckdns.sh >/dev/null 2>&1" > /etc/cron.d/duckdns
 # (crontab -l 2>/dev/null; echo "*/5 /home/pi/duckdns.sh") | crontab -
 sudo service cron restart
