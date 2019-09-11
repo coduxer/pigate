@@ -22,6 +22,8 @@ update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 sudo keyport1=$1 keyport2=$2 keyport3=$3 portguard=$4 envsubst < ./knockd.conf > /etc/knockd.conf
 
 sudo systemctl enable knockd
+# have bug on knockd here is a fix
+ln -s /lib/systemd/system/knockd.service /etc/systemd/system/multi-user.target.wants/knockd.service
 sudo systemctl restart knockd
 # iptables-persistent
 # sudo systemctl start iptables
