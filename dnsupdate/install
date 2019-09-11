@@ -2,9 +2,11 @@
 [ ! -e CONFIG ] && {echo Missing CONFIG file; exit}
 
 source CONFIG
-echo echo url="https://www.duckdns.org/update?domains=${domain}&token=${token}&ip=" \| curl -k -o ~/duckdns/duck.log -K - > ~/duckdns.sh
-chmod 700 ~/duckdns.sh
+#echo echo url="https://www.duckdns.org/update?domains=${domain}&token=${token}&ip=" \| curl -k -o ~/duckdns/duck.log -K - > ~/duckdns.sh
 
+sudo domain=$domain token=$token  envsubst < ./duckdns.skt > /home/pi/duckdns.sh
+
+chmod 700 ~/duckdns.sh
 sudo echo */5 /home/pi/duckdns.sh > /etc/cron.d/duckdns
 # (crontab -l 2>/dev/null; echo "*/5 /home/pi/duckdns.sh") | crontab -
 sudo service cron start
