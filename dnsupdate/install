@@ -1,4 +1,5 @@
 #!/bin/bash
+[ "$EUID" -ne 0 ] && { echo Please run as root; exit 1; } 
 [ ! -e CONFIG ] && { echo Missing CONFIG file; exit 1; }
 source CONFIG
 
@@ -7,5 +8,5 @@ source CONFIG
 sudo domain=$domain token=$token  envsubst < ./duckdns.skt > /etc/cron.d/duckdns.sh
 sudo echo "*/5 * * * * root /etc/cron.d/duckdns.sh >/dev/null 2>&1" > /etc/cron.d/duckdns
 # (crontab -l 2>/dev/null; echo "*/5 /home/pi/duckdns.sh") | crontab -
-sudo service cron enable
-sudo service cron restart
+sudo systemctl enable cron 
+sudo systemctl restart cron 
